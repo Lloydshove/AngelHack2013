@@ -104,19 +104,11 @@ for (yStep in 0..10) {
                         (startLong + (xDelta * (xStep + 1))).toString(),
                         (startLat + (yDelta * (yStep + 1))).toString()])
 
-//        parameters.setBBox(
-//                ["103.5113577",
-//                 "1.169447029",
-//                 "104.12796545"       ,
-//                 "1.5126752"       ])
-
 
         println "- - - - - - STARTED - - - - - - - "
         for (pageNum in 1..10) {
             try {
                 PhotoList photos = photoInterface.search(parameters, perPage, pageNum)
-//)getWithGeoData(startDate, endDate, startDate, endDate, 1, "", [] as Set, 5, 1
-
 
                 println "we have " + photos.size() + " photos "
 
@@ -125,12 +117,16 @@ for (yStep in 0..10) {
 
 
                 photos.each {
+                    try {
+                        Photo phot = (it as Photo)
 
-                    Photo phot = (it as Photo)
+                        def json = buildJson(phot, geoInterface.getLocation(phot.getId()))
+                        println json
+                        output += json + "\n"
 
-                    def json = buildJson(phot, geoInterface.getLocation(phot.getId()))
-                    println json
-                    output += json + "\n"
+                    } catch (Exception e) {
+                        println(e)
+                    }
                 }
 
                 if(photos.size()<perPage-1){break}
