@@ -1,0 +1,5 @@
+Flickr API stuff
+
+stray photographer
+Key: 8427550a6678894dfe644455025bcf3a
+Secret: 7ceb5bd318eb1120
