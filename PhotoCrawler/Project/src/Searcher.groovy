@@ -86,22 +86,17 @@ parameters.minUploadDate = startDate
 //parameters.placeId = "XAX6n_BTUb7y_QAw9w"
 //parameters.accuracy=5
 parameters.accuracy = 12
-def startLong = 103.511357
-def startLat = 1.169447
-def xDelta = 0.00616608
-def yDelta = 0.003433
-
-//parameters.setLatitude("1.3178");
-//parameters.setLongitude("103.8304");
-//parameters.setRadius(32);
-//parameters.setRadiusUnits("km");
+def startLong = 103.804396
+def startLat = 1.234918
+def xDelta = 0.0054931
+def yDelta = 0.0030806
 
 //PhotoList photos = photoInterface.getWithGeoData(startDate, endDate, startDate, endDate, 1, "", [] as Set, 5, 1)
 def perPage = 200
 
 
-for (yStep in 0..100) {
-    for (xStep in 0..100) {
+for (yStep in 0..10) {
+    for (xStep in 0..10) {
         def output = ""
         parameters.setBBox(
                 [(startLong + (xDelta * xStep)).toString(),
@@ -138,7 +133,7 @@ for (yStep in 0..100) {
                     output += json + "\n"
                 }
 
-                if(photos.size()<perPage){break}
+                if(photos.size()<perPage-1){break}
             } catch (Exception e) {
                 println(e)
             }
