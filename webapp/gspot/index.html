@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html ng-app='gspot'>
+
+<head >
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%;
+       margin: 0; 
+       padding: 0;
+       
+       }
+    	#menu {
+    		position:fixed;
+    	 	height:40px;
+     		width:100%;
+     		background-color: rgba(50,50,50,0.8);
+     		z-index:2;
+     		display:block;
+     		vertical-align: middle;
+     		text-align: right;
+     		box-shadow: 0px 5px 5px #888888;
+     	} 
+    	#displayPanel{
+			position:relative;
+			top:0px;
+			right:0px;
+			width:100%;
+			text-align:right;
+			background-color: rgb(50, 50, 50)
+		}
+		#loadingPanel{
+			position:fixed;
+			display:table-cell;
+			top:0px;
+			right:0px;
+			z-index:1;
+			width:100%;
+			height:100%;
+			background-color: rgba(40,40,40,0.8);
+			vertical-align:middle;
+			text-align:center;
+		}
+	ul{
+		list-style-type:none;
+		margin:0;
+		padding:0;
+		overflow:hidden;
+		height:40px;
+	}
+	li{
+		display:table-cell;
+		float:left;
+		color:white;
+		height:40px;
+		padding: 0px 10px;
+		border-right:thick double #444444;
+		vertical-align:middle;
+	}
+	li a{
+
+		vertical-align:middle;
+		display:table-cell;
+		height:40px;
+	}
+	a{
+		font-family:verdana;
+		font-size:15px;
+		text-decoration:none;
+		color:white;
+	}
+      
+    </style>
+
+	<script type="text/javascript" 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOHA8rr4Xd1sDwXPYYh6-PzEbZnxxMHNA&sensor=false">
+	</script>
+	
+	<script src="angular.min.js"></script>
+	<script src="angular-resource.min.js"></script>
+	<script src="angular-ui-utils.min.js"></script>
+	<script src="ui-map.min.js"></script>
+	<script src="goodspot.js"></script>
+	
+</head>
+
+<body ng-controller="mainCtrl">
+
+	<div id='menu'>
+    	<ul>
+    	<li><a style="color:yellow" href="#">GSPOT</a></li>
+		<li><a href="#" ng-click="showSpots()">Search</a></li>
+		<li><a href="#" ng-click="showBounds()">Boundary</a></li>	
+		</ul>
+	</div>
+	
+<div style="height:100%">
+	
+    <div style="height:100%">
+    
+    <div id='loadingPanel' ng-show='isLoading'>
+    	LOADING...
+    </div>
+    
+
+    
+    
+    <div id="map_canvas" ui-map="map" 
+    	style="height:{{mapHeight}};width:100%"
+      ui-options="mapOptions" 
+      ui-event="{'map-idle' : 'onMapIdle()'}">
+    </div>
+
+    <div ng-repeat="marker in markers" ui-map-marker="markers[$index]"
+                      ui-event="{'map-click': 'markerClicked($index)'}">
+    </div>
+    
+    
+    
+    
+    <div id='displayPanel' ng-show='displayBoard==true'>
+    	<a style="display:table-cell;width:100%;text-align:right;padding:10px;color:white" href="#" ng-click='mapHeight="100%";displayBoard=false'>CLOSE</a>
+    	<div style='padding:10px' ng-repeat="img in displaySpot.imgs" >
+    		<img style="width:100%" src="{{img}}" />
+    	</div>
+    </div>
+    
+
+    </div>
+</div>
+</body>
+</html>
