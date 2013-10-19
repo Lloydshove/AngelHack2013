@@ -45,7 +45,13 @@ public class DataManager {
 			
 			collection.insert(dbObjectList);
 		}
-		collection.ensureIndex((DBObject) JSON.parse("{\"loc\":\"2dsphere\"}"));
+		try {
+			collection.ensureIndex((DBObject) JSON.parse("{\"loc\":\"2dsphere\"}"));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		collection.drop();
 	}
 	
 	public static void main(String[] args) {
