@@ -38,7 +38,7 @@ def AuthExample() {
     System.out.println("Press return after you granted access at this URL:");
     System.out.println(url.toExternalForm());
     BufferedReader infile =
-        new BufferedReader ( new InputStreamReader (System.in) );
+        new BufferedReader(new InputStreamReader(System.in));
     String line = infile.readLine();
     try {
         Auth auth = authInterface.getToken(frob);
@@ -92,38 +92,39 @@ parameters.setLongitude("103.8304");
 parameters.setRadius(32);
 parameters.setRadiusUnits("km");
 
-
 //PhotoList photos = photoInterface.getWithGeoData(startDate, endDate, startDate, endDate, 1, "", [] as Set, 5, 1)
 def perPage = 500
-def pageNum = 2
-PhotoList photos = photoInterface.search(parameters, perPage, pageNum)
+
+for (pageNum in 1..2) {
+    PhotoList photos = photoInterface.search(parameters, perPage, pageNum)
 //)getWithGeoData(startDate, endDate, startDate, endDate, 1, "", [] as Set, 5, 1
 
 
+    println "we have " + photos.size() + " photos at " + new Date()
+    println "- - - - - - STARTED - - - - - - - "
+    def geoInterface = flickr.getGeoInterface()
 
-println "we have "+photos.size() + " photos at " + new Date()
-println "- - - - - - STARTED - - - - - - - "
-def geoInterface = flickr.getGeoInterface()
+    def output = ""
 
-def output = ""
+    photos.each {
 
-photos.each {
+        Photo phot = (it as Photo)
 
-    Photo phot = (it as Photo)
+        def json = buildJson(phot, geoInterface.getLocation(phot.getId()))
+        println json
+        output += json + "\n"
+    }
 
-    def json = buildJson(phot, geoInterface.getLocation(phot.getId()))
-    println json
-    output += json + "\n"
+    println "- - - - - - FINISHED - - - - - - - "
+    println new Date()
+
+    new File("""../generated_data/photos-flickr-singapore-${perPage}-${pageNum}.json""").withWriter {
+        out -> out.write(output)
+    }
 }
 
-println "- - - - - - FINISHED - - - - - - - "
-println new Date()
 
-new File("""../generated_data/photos-flickr-singapore-${perPage}-${pageNum}.json""").withWriter { out ->
-        out.write(output)
-}
-
-def buildJson(Photo photo, GeoData geo){
-    """{"id": "${photo.id}","server": "${photo.server}","farm": "${photo.farm}","userId": "${photo.owner.id}","secret": "${photo.secret}","title": "${photo.title}","loc": {"type": "Point","coordinates": [${geo.latitude},${geo.longitude}]}} """
+def buildJson(Photo photo, GeoData geo) {
+    """{"id": "${photo.id}","server": "${photo.server}","farm": "${photo.farm}","userId": "${photo.owner.id}","secret": "${photo.secret}","title": "${photo.title.replaceAll('"', "'")}","loc": {"type": "Point","coordinates": [${geo.longitude},${geo.latitude}]}} """
 }
 
