@@ -138,7 +138,7 @@ for (yStep in 0..100) {
                     output += json + "\n"
                 }
 
-
+                if(photos.size()<perPage){break}
             } catch (Exception e) {
                 println(e)
             }
