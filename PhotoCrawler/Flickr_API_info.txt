@@ -103,3 +103,15 @@ Example search response
     "stat": "ok"
 }
 
+190000 / 3600
+
+
+Authentication success
+Token: 72157636711948485-ce10bb434213e7a1
+nsid: 74578645@N00
+Realname: Lloyd Shove
+Username: shovel
+Permission: 3
+
+
+
