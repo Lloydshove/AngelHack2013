@@ -8,24 +8,22 @@ gspot.run(function($rootScope){
 
 var spotsResources = gspot.factory('spotsResources', function($resource){
 
-//http://10.126.0.88:port/whatever.json
-	return $resource('http://10.126.0.88:port/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
+//http://10.126.0.88:1080/whatever.json
+	return $resource('http://:host/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
 		southWestLat : '@southWestLat',
 		southWestLng : '@southWestLng',
 		northEastLat : '@northEastLat',
 		northEastLng : '@northEastLng',
-		port: ':1080'
+		host: '@host'
 	}) 	
 	
 });
 
-
-
 var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function mainCtrl($scope, spotsResources) {
 	$scope.markers = [];
 	$scope.spots = [];
-	$scope.mapHeight = '100%';
 	$scope.isLoading = false;
+	$scope.host = '10.126.0.88:1080';
 	
 	$scope.displayBoard = false;
     var singapore = new google.maps.LatLng(1.2485223959625258, 103.83118438720703);  
@@ -39,15 +37,13 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 
     $scope.markerClicked = function(index) {
     	$scope.displaySpot = $scope.spots[index];
-    	$scope.mapHeight = '20%';
         $scope.displayBoard = true;
     };
     
     $scope.showSpots = function(){
-    
-    	//$scope.isLoading = true;
-    
+
     	$scope.spots = [];
+    	$scope.isLoading = true;
     	
     	for(var i = 0; i < $scope.markers.length; i ++){
     		$scope.markers[i].setMap(null);
@@ -64,12 +60,12 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 			southWestLat : southWestLat,
 			southWestLng : southWestLng,
 			northEastLat : northEastLat,
-			northEastLng : northEastLng
+			northEastLng : northEastLng,
+			host : $scope.host
 			},
 			function(response){
 
     		$scope.spots = response;
-    		//$scope.isLoading = false;
     		
     		console.log($scope.spots);
     		
@@ -90,6 +86,8 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
     			$scope.markers[i] = marker;
     			
     		}
+    		
+    		$scope.isLoading = false;
     		}
     		
     	});
@@ -100,20 +98,5 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
     	alert("SouthWest:" + $scope.map.getBounds().getSouthWest().toString());
     	alert("NorthEast:" + $scope.map.getBounds().getNorthEast().toString());
     }
-    
-    
-    /*
-    $scope.addCenter = function(){
-    	
-    	var center = $scope.myMap.getCenter();
-    	
-    	var marker = new google.maps.Marker({
-    		map: $scope.myMap,
-    		position: center
-    	});
-    	
-    	$scope.markers.push(marker);
-    }
-    */
     
 }]);
