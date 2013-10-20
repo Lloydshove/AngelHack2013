@@ -9,7 +9,7 @@ gspot.run(function($rootScope){
 var spotsResources = gspot.factory('spotsResources', function($resource){
 
 //http://10.126.0.88:port/whatever.json
-	return $resource('http://10.126.0.88:port/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
+	return $resource('http://localhost:port/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
 		southWestLat : '@southWestLat',
 		southWestLng : '@southWestLng',
 		northEastLat : '@northEastLat',
@@ -39,7 +39,7 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 
     $scope.markerClicked = function(index) {
     	$scope.displaySpot = $scope.spots[index];
-    	$scope.mapHeight = '50%';
+    	$scope.mapHeight = '20%';
         $scope.displayBoard = true;
     };
     
