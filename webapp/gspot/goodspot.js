@@ -8,13 +8,13 @@ gspot.run(function($rootScope){
 
 var spotsResources = gspot.factory('spotsResources', function($resource){
 
-//http://10.126.0.88:port/whatever.json
-	return $resource('http://localhost:port/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
+//http://10.126.0.88:1080/whatever.json
+	return $resource('http://:host/whatever.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
 		southWestLat : '@southWestLat',
 		southWestLng : '@southWestLng',
 		northEastLat : '@northEastLat',
 		northEastLng : '@northEastLng',
-		port: ':1080'
+		host: '@host'
 	}) 	
 	
 });
@@ -23,6 +23,7 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 	$scope.markers = [];
 	$scope.spots = [];
 	$scope.isLoading = false;
+	$scope.host = '10.126.0.88:1080';
 	
 	$scope.displayBoard = false;
     var singapore = new google.maps.LatLng(1.2485223959625258, 103.83118438720703);  
@@ -59,7 +60,8 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 			southWestLat : southWestLat,
 			southWestLng : southWestLng,
 			northEastLat : northEastLat,
-			northEastLng : northEastLng
+			northEastLng : northEastLng,
+			host : $scope.host
 			},
 			function(response){
 
