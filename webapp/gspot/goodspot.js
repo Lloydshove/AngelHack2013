@@ -1,8 +1,6 @@
 var gspot = angular.module('gspot', ['ngResource', 'ui.map','ui.event']);
 
 gspot.run(function($rootScope){
-    //TODO (1): Give your blog a name and a isAddingPost flag to control the display
-
     $rootScope.mapHeight = "1000px";
     $rootScope.mapWidth = "100%";
 
@@ -69,13 +67,15 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 			northEastLng : northEastLng
 			},
 			function(response){
-			
-			console.log('get the response:'+response);
 
     		$scope.spots = response;
     		//$scope.isLoading = false;
     		
-    		if($scope.spots = [])
+    		console.log($scope.spots);
+    		
+    		if($scope.spots.length === 0){
+    			alert('No photos are found - try again!');
+    		} else {
     		
     		for(var i = 0; i < $scope.spots.length ; i++){
     		//Add each spot a marker object
@@ -87,8 +87,9 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
     				position: position
     			});
     			
-    			$scope.markers[i] = marker
+    			$scope.markers[i] = marker;
     			
+    		}
     		}
     		
     	});
