@@ -100,10 +100,7 @@
     <div id='loadingPanel' ng-show='isLoading'>
     	LOADING...
     </div>
-    
 
-    
-    
     <div id="map_canvas" ui-map="map" 
     	style="height:{{mapHeight}};width:100%"
       ui-options="mapOptions" 
@@ -113,14 +110,11 @@
     <div ng-repeat="marker in markers" ui-map-marker="markers[$index]"
                       ui-event="{'map-click': 'markerClicked($index)'}">
     </div>
-    
-    
-    
-    
+
     <div id='displayPanel' ng-show='displayBoard==true'>
     	<a style="display:table-cell;width:100%;text-align:right;padding:10px;color:white" href="#" ng-click='mapHeight="100%";displayBoard=false'>CLOSE</a>
     	<div style='padding:10px' ng-repeat="img in displaySpot.imgs " >
-    		<a href="{{img.link}}"><img style="width:100%" src="{{img.img}}" /></a>
+    		<a href="{{img.link}}" target="_blank"><img style="width:100%" src="{{img.img}}" /></a>
     	</div>
     </div>
     
