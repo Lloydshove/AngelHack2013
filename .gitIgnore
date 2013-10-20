@@ -3,3 +3,7 @@ webapp/.idea/workspace.xml
 **/workspace.xml
 *.class
 *.iws
+
+webapp/.DS_Store
+
+.DS_Store
