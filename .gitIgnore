@@ -1,5 +1,6 @@
 gspot/.idea/workspace.xml
 webapp/.idea/workspace.xml
+.idea/libraries/
 **/workspace.xml
 *.class
 *.iws
