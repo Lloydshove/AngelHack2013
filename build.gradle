@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+ 
+repositories {
+    mavenCentral()
+}
+ 
+dependencies {
+    compile 'org.apache.tomcat:tomcat-catalina:7.0.41'
+    compile 'org.apache.tomcat:tomcat-util:7.0.41'
+    compile 'org.apache.tomcat.embed:tomcat-embed-core:7.0.41'
+    compile 'org.codehaus.jettison:jettison:1.3'
+    compile 'org.eclipse.jetty:jetty-server:9.0.6.v20130930'
+    compile 'org.mongodb:mongo-java-driver:2.11.3'
+    compile 'commons-io:commons-io:2.4'
+}
+ 
+sourceCompatibility = 1.7
+targetCompatability = 1.7
+
+task stage(dependsOn: ["clean", "compileJava", "copyToLib"])
+ 
+task(selectServer, dependsOn: 'stage', type: JavaExec) {
+    main = 'photoapp.Server'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput= System.in
+}
+
+task copyToLib << {
+  copy {
+    from configurations.compile.copy().setTransitive(true)
+    into "$buildDir/libs"
+    rename { name ->
+      def artifacts = configurations.compile.resolvedConfiguration.resolvedArtifacts
+      def artifact = artifacts.find { it.file.name == name }
+      "${artifact.name}.${artifact.extension}"
+    }
+  }
+}
+ 
+defaultTasks 'selectServer'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
