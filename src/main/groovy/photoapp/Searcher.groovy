@@ -11,14 +11,6 @@ import com.aetrion.flickr.photos.GeoData
 import com.aetrion.flickr.photos.Photo
 import com.aetrion.flickr.photos.PhotoList
 import com.aetrion.flickr.photos.SearchParameters
-import com.aetrion.flickr.util.IOUtilities
-import org.xml.sax.SAXException
-import java.io.InputStream;
-
-import javax.xml.parsers.ParserConfigurationException
-
-import static java.util.Collections.EMPTY_LIST
-
 
 def AuthExample() {
 
