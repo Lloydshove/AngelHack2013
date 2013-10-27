@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
  
 repositories {
@@ -15,11 +16,9 @@ dependencies {
     compile 'org.eclipse.jetty:jetty-servlet:9.1.0.RC0'
     compile 'org.mongodb:mongo-java-driver:2.11.3'
     compile 'commons-io:commons-io:2.4'
+    compile 'org.codehaus.groovy:groovy-all:2.1.8'
     compile fileTree(dir: 'lib', includes: ['flickrapi-1.2.jar'])
 }
- 
-sourceCompatibility = 1.7
-targetCompatability = 1.7
 
 task stage(dependsOn: ["clean", "compileJava", "copyToLib"])
  

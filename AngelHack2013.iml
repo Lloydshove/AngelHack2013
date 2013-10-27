@@ -42,6 +42,7 @@
     <orderEntry type="library" exported="" name="jetty-servlet-9.1.0.RC0" level="project" />
     <orderEntry type="library" exported="" name="jetty-http-9.1.0.RC0" level="project" />
     <orderEntry type="library" exported="" name="jetty-server-9.1.0.RC0" level="project" />
+    <orderEntry type="library" name="groovy-all-2.1.8" level="project" />
   </component>
 </module>
 
