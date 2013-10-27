@@ -22,7 +22,7 @@ var mainCtrl = gspot.controller('mainCtrl',['$scope','spotsResources', function 
 	$scope.markers = [];
 	$scope.spots = [];
 	$scope.isLoading = false;
-	$scope.host = '10.126.0.88:1080';
+//	$scope.host = '10.126.0.88:1080';
 	
 	$scope.displayBoard = false;
     var singapore = new google.maps.LatLng(1.2485223959625258, 103.83118438720703);  
