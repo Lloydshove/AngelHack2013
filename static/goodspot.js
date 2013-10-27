@@ -9,7 +9,7 @@ gspot.run(function($rootScope){
 var spotsResources = gspot.factory('spotsResources', function($resource){
 
 	//return $resource('localhost:8080/spots.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
-	return $resource('localhost:8080/spots.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
+	return $resource('http://goodspot.herokuapp.com/spots.json?southWestLat=:southWestLat&southWestLng=:southWestLng&northEastLat=:northEastLat&northEastLng=:northEastLng', {
 		southWestLat : '@southWestLat',
 		southWestLng : '@southWestLng',
 		northEastLat : '@northEastLat',
