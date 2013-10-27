@@ -18,7 +18,7 @@ public class DataManager {
 	
 	private final static int NUMBER_OF_SPOTS = 5;
 	private final static int NUMBER_OF_PHOTOS = 10;
-	private final static int SPOT_STEP = 6;
+	private final static int SPOT_STEP = 8;
 
 	private final static String GEO_QUERY = "{\"loc\":{\"$geoWithin\":{\"$box\":[[%f,%f],[%f,%f]]}}}";
 
