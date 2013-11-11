@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+
+    <title>GoodSpot</title>
+
+    <!-- Include AngularJS -->
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script src="angular-resource.min.js"></script>
+
+    <!-- Include module for AngularUI Google Map Module -->
+    <script type="text/javascript" src="event.js"></script>
+    <script type="text/javascript" src="ui-map2.js"></script>
+
+    <!-- include bootstrap module -->
+    <script src="ui-bootstrap-tpls-0.6.0.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- include project js -->
+    <script src="goodspot2.js"></script>
+
+    <style>
+        html, body { height:100%; background-color:#333333;}
+        #map-section {height:100%}
+        #review-section {
+            position:absolute;
+            padding-left: 2%;
+            padding-right: 2%;
+            left:0px;
+            top:50px;
+            width: 96%;
+            opacity:0.95;
+            filter:alpha(opacity=95);
+            z-index:1;}
+        #map-canvas {height:100%; position: fixed; top:0px; left:0px}
+        #review-section {
+            background-color: rgb(50, 50, 50);
+            top:0px;
+            height:100%;
+            width:100%;}
+        #alert-section {
+            position:absolute;
+            padding-left: 2%;
+            padding-right: 2%;
+            left:0px;
+            top:60px;
+            width: 96%;
+            opacity:0.95;
+            filter:alpha(opacity=95);
+            z-index:1;}
+        #progress-section {
+            z-index:1;
+            position: absolute;
+            padding-left: 2%;
+            padding-right: 2%;
+            opacity:0.95;
+            filter:alpha(opacity=95);
+            width:96%;
+            left: 0px;
+            bottom: 50%;}
+        #menu-section{
+            position:fixed;
+            height:40px;
+            width:100%;
+            background-color: rgba(50,50,50,0.8);
+            z-index:2;
+            display:block;
+            vertical-align: middle;
+            text-align: right;
+            box-shadow: 0px 5px 5px #888888;}
+        ul{
+            list-style-type:none;
+            margin:0;
+            padding:0;
+            overflow:hidden;
+            height:40px;}
+        li{
+            display:table-cell;
+            float:left;
+            color:white;
+            height:40px;
+            padding: 0px 10px;
+            border-right:thick double #444444;
+            vertical-align:middle;}
+        li a{
+            vertical-align:middle;
+            display:table-cell;
+            height:40px;}
+        a{
+            font-family:verdana;
+            font-size:15px;
+            text-decoration:none;
+            color:white;}
+        a:hover{
+            color:lightgreen;}
+
+    </style>
+
+</head>
+<body id="map">
+
+<section id="alert-section" ng-controller="AlertCtrl">
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+</section>
+
+<section id="map-section" ng-controller="MapCtrl">
+
+    <section id="menu-section">
+        <ul>
+            <li><a style="color:yellow" href="#">GoodSpot</a></li>
+            <li ng-show="review == false"><a href="#" ng-click="search();">Search</a></li>
+            <li ng-show="review == true"><a href="#" ng-click="review = false;">close</a></li>
+            <li ng-show="review == false"><input type='text' ng-model='host'/></li>
+        </ul>
+    </section>
+
+    <div ng-hide="review == true" ui-map="map" ui-options="mapOptions" id="map-canvas"></div>
+
+    <div ng-show="review == true" style="position:relative;width:100%;padding-top: 60px">
+        <div ng-repeat="img in reviewSpot.imgs " >
+            <center style="background:#333333"><a href="{{img.link}}" target="_blank"><img style='width:90%;padding-bottom:20px;padding-top:20px' ng-src="{{img.img}}" /></a></center>
+        </div>
+    </div>
+
+    <!--
+        event handling map: trigger search event when the boundaries changed
+        <div ui-map="map" ui-options="mapOptions" id="map-canvas"-->
+         <!--ui-event="{'map-bounds_changed': 'doSomething()'}"></div>-->
+
+    <div ng-show="review == false" ng-repeat="spot in spots" ui-map-marker="spots[$index].marker"
+         ui-event="{'map-click': 'markerClicked($index)'}">
+    </div>
+</section>
+
+<section id="progress-section" ng-controller="ProgressBarCtrl" ng-show="showProgressBar">
+    <div style="text-align:right; color:Yellow; text-shadow: 2px 2px #444444">SEARCHING...</div>
+    <progress percent="100" class="progress-danger progress-striped active"></progress>
+</section>
+
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOHA8rr4Xd1sDwXPYYh6-PzEbZnxxMHNA&sensor=false&callback=onGoogleReady"></script>
+</body>
+</html>
