@@ -70,45 +70,52 @@ Flickr.debugRequest = false;
 Flickr.debugStream = false;
 
 
-def startDate = Date.parse("dd-MM-yyyy", "19-10-2012")
-def endDate = Date.parse("dd-MM-yyyy", "19-10-2013")
+def startDate = Date.parse("dd-MM-yyyy", "29-08-2013")
+def endDate = Date.parse("dd-MM-yyyy", "29-09-2013")
 def photoInterface = flickr.getPhotosInterface()
 def parameters = new SearchParameters()
 parameters.hasGeo = 1
 parameters.minUploadDate = startDate
+parameters.maxUploadDate = endDate
+//parameters.tags = ["food"]
 //parameters.maxUploadDate = endDate
 //parameters.placeId = "XAX6n_BTUb7y_QAw9w"
 //parameters.accuracy=5
-parameters.accuracy = 12
-def startLong = 103.804396
-def startLat = 1.234918
-def xDelta = 0.0054931
-def yDelta = 0.0030806
+//parameters.accuracy = 10
+def startLong = 103.607314
+def startLat = 1.223625
+def endLat = 1.498489
+def endLong = 104.045102
+def gridWidth = 40
+def longDelta = (endLong - startLong)/gridWidth
+def latDelta = (endLat - startLat)/gridWidth
+
 
 //PhotoList photos = photoInterface.getWithGeoData(startDate, endDate, startDate, endDate, 1, "", [] as Set, 5, 1)
-def perPage = 200
+def perPage = 250
 
+def lats = startLat..endLat in latDelta
+def longs = startLong..endLong in longDelta
 
-for (yStep in 0..10) {
-    for (xStep in 0..10) {
+for (longStep in 0..gridWidth) {
+    for (latStep in 0..gridWidth) {
         def output = ""
-        parameters.setBBox(
-                [(startLong + (xDelta * xStep)).toString(),
-                        (startLat + (yDelta * yStep)).toString(),
-                        (startLong + (xDelta * (xStep + 1))).toString(),
-                        (startLat + (yDelta * (yStep + 1))).toString()])
+        def box = [(startLong + (longDelta * longStep)).toString(),
+                (startLat + (latDelta * latStep)).toString(),
+                (startLong + (longDelta * (longStep + 1))).toString(),
+                (startLat + (latDelta * (latStep + 1))).toString()]
+        parameters.setBBox(box)
 
 
         println "- - - - - - STARTED - - - - - - - "
-        for (pageNum in 1..10) {
+        println box + longDelta
+        for (pageNum in 1..8) {
             try {
                 PhotoList photos = photoInterface.search(parameters, perPage, pageNum)
 
                 println "we have " + photos.size() + " photos "
 
                 def geoInterface = flickr.getGeoInterface()
-
-
 
                 photos.each {
                     try {
@@ -123,16 +130,17 @@ for (yStep in 0..10) {
                     }
                 }
 
-                if(photos.size()<perPage-1){break}
+                if (photos.size() < perPage - 1) {
+                    break
+                }
             } catch (Exception e) {
                 println(e)
             }
-
         }
 
         println "- - - - - - FINISHED - - - - - - - "
         if (output.size() > 0) {
-            new File("""../generated_data/photos-flickr-singapore-${(startLong + (xDelta * xStep)).toString()}-${(startLat + (yDelta * yStep)).toString()}-${(startLong + (xDelta * (xStep + 1))).toString()}-${(startLat + (yDelta * (yStep + 1))).toString()}.json""").withWriter {
+            new File("""../../../../generated_data_20_sing_1RealMonth2/photos-flickr-singapore-${(startLong + (longDelta * longStep)).toString()}-${(startLat + (latDelta * latStep)).toString()}-${(startLong + (longDelta * (longStep + 1))).toString()}-${(startLat + (latDelta * (latStep + 1))).toString()}.json""").withWriter {
                 out -> out.write(output)
             }
         }

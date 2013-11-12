@@ -26,6 +26,7 @@ public class DataManager {
 		MongoClient mongoClient = MongoDbConnector.getInstance();
 		//DB db = mongoClient.getDB("test");
 		DB db = getRemoteDb();
+        db.dropDatabase();
         //return db.createCollection("fdata", null);
 		return db.getCollection("fdata");
 	}
