@@ -13,6 +13,6 @@ String.metaClass.asDate = { Date.parse("dd-MM-yyyy", (String)delegate)}
 new SearcherApp().searchFor(
         "29-08-2013".asDate(),
         "29-08-2013".asDate(),
-        new Point()
+       // new Point()
 )
 
